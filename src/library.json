@@ -1,0 +1,20 @@
+{
+  "name": "Highprom",
+  "keywords": "eeprom, memmory, arduino, dictionary",
+  "description": "Arduino library for High level eeprom memmory abstraction and handling",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/kohoutovice/Arduino-Highprom"
+  },
+  "authors":
+  [
+    {
+      "name": "Jan Jurča",
+      "maintainer": true
+    }
+  ],
+  "version": "3.7.7",
+  "frameworks": "arduino",
+  "platforms": "*"
+}
