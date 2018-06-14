@@ -7,6 +7,8 @@
 #include <cwchar>
 #include <cstring>
 #include "EEPROM.h"
+#include "iostream"
+using namespace std;
 #endif
 
 #ifndef DEBUG

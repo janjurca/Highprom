@@ -1,7 +1,7 @@
 #include "highprom.h"
 
 void Highprom::init(){
-    for (size_t i = 0; i <= size; i++) {
+    for (size_t i = 0; i < size; i++) {
         EEPROM.write(i, '\0');
     }
 }
@@ -31,7 +31,7 @@ int Highprom::indexOfValue(char* key){
                 break;
             }
             if (j+1 == len) {
-                return i + len;
+                return i + len + 1;
             }
         }
     }
@@ -90,8 +90,7 @@ int Highprom::getNextStringIndex(int startIndex){
     char c;
     do {
         c = EEPROM.read(startIndex++);
-
-    } while(c != '\0' && startIndex <= size);
+    } while(c != '\0' && startIndex < size);
     return startIndex;
 }
 
@@ -102,10 +101,22 @@ void Highprom::eraseFromTo(int start, int end){
 }
 
 bool Highprom::insertAtEnd(char* key,char* value){
-    int index = getFirstFreeIndex();
-    for (size_t i = 0; i < strlen(value); i++) {
+    int index_first = getFirstFreeIndex();
+    int index = index_first;
+    size_t i = 0;
+    for (; i < strlen(key); i++) {
         if (index+i >= size) {
             eraseFromTo(index, index+i);
+            return false;
+        }
+        EEPROM.write(index+i, key[i]);
+    }
+    EEPROM.write(index+i, '\0');
+    index = index + i + 1;
+    i = 0;
+    for (; i < strlen(value); i++) {
+        if (index+i >= size) {
+            eraseFromTo(index_first, index+i);
             return false;
         }
         EEPROM.write(index+i, value[i]);
@@ -114,9 +125,9 @@ bool Highprom::insertAtEnd(char* key,char* value){
 }
 
 int Highprom::getFirstFreeIndex(){
-    for (size_t i = size-1; i >= 0; i--) {
+    for (int i = size-1; i > 0; i--) {
         if (EEPROM.read(i) != '\0') {
-            return i+1;
+            return i+2;
         }
     }
 }
