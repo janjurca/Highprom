@@ -1,7 +1,6 @@
 #ifndef EEPROM_EXT_H
 #define EEPROM_EXT_H value
 
-#define DEBUG
 #ifdef DEBUG
 #include <stdio.h>
 #include <cstring>
