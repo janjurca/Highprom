@@ -3,8 +3,7 @@
 
 #define DEBUG
 #ifdef DEBUG
-#include <cstdlib>
-#include <cwchar>
+#include <stdio.h>
 #include <cstring>
 #include "EEPROM.h"
 #include "iostream"
@@ -49,6 +48,7 @@ public:
      */
     bool insertValue(char* key,char* value);
 
+
     void removeValue(char* key);
 
 protected:
@@ -57,9 +57,11 @@ protected:
     int getFirstFreeIndex();
     void eraseFromTo(int start,int end);
     int indexOfValue(char* key);
+    int indexOfKey(char* key);
     int getValueLength(int index);
     bool writeOnAdress(char* str, size_t address);
     int getNextStringIndex(int startIndex);
+    void removeCell(int index);
 };
 
 

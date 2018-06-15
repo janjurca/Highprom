@@ -38,23 +38,41 @@ int Highprom::indexOfValue(char* key){
     return -1;
 }
 
-int Highprom::getValueLength(int index){
-    int i = 0;
-    for (; EEPROM.read(i) != '\0'; i++) {
+int Highprom::indexOfKey(char *key){
+    int len = strlen(key);
+    for (int i = 0; i < size - len; i++) {
+        for (int j = 0; j < len; j++) {
+            char c = EEPROM.read(i + j);
+            if (c != key[j]) {
+                break;
+            }
+            if (j+1 == len) {
+                return i;
+            }
+        }
     }
-    return i;
+    return -1;
 }
 
-void Highprom::removeValue(char *key){
-    //spocitej delku a ty před tim posun
-    int index = indexOfValue(key);
-    if (index != -1) {
-        int key_length = getValueLength(index);
-        int value_length  = getValueLength(index+key_length);
-        for (size_t i = index+key_length+value_length; i < size; i++) {
+int Highprom::getValueLength(int index){
+    int i = index;
+    for (; EEPROM.read(i) != '\0'; i++) {
+    }
+    return i -index;
+}
+
+void Highprom::removeCell(int index){
+    if (index >= 0 && index < size) {
+        int cell_length = getValueLength(index);
+        for (int i = index+cell_length + 1; i < size; i++) {
             EEPROM.write(index++, EEPROM.read(i));
         }
     }
+}
+
+void Highprom::removeValue(char *key){
+    removeCell(indexOfValue(key));
+    removeCell(indexOfKey(key));
 }
 
 bool Highprom::insertValue(char *key, char *value){
