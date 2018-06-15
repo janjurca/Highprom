@@ -1,15 +1,15 @@
 #ifndef EEPROM_EXT_H
 #define EEPROM_EXT_H value
 
-#ifdef DEBUG
+#ifdef DEBUG_GTESTING
 #include <stdio.h>
 #include <cstring>
-#include "tests/EEPROM.h"
+#include "../tests/EEPROM.h"
 #include "iostream"
 using namespace std;
 #endif
 
-#ifndef DEBUG
+#ifndef DEBUG_GTESTING
 #include <EEPROM.h>
 #include "Arduino.h"
 #endif
