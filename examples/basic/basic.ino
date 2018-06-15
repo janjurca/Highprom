@@ -19,9 +19,9 @@ void setup(){
     prom.insertValue("key","value1");//There is Update semantics, so the first value will be replaced by this
 
     char buff[20];
-    prom.getValue("key",dst,20);
+    prom.getValue("key",buff,20);
     Serial.print("This was readed from EEPROM: ");
-    Serial.println(dst);
+    Serial.println(buff);
 
     prom.removeValue("key"); //As the value was inserted it can be removed
 
