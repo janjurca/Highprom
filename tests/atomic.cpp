@@ -1,6 +1,6 @@
 #include <gtest/gtest.h> // googletest header file
-#include "../src/EEPROM.h"
-#include "../src/highprom.h"
+#include "EEPROM.h"
+#include "../highprom.h"
 #include <string>
 using std::string;
 

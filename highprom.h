@@ -5,7 +5,7 @@
 #ifdef DEBUG
 #include <stdio.h>
 #include <cstring>
-#include "EEPROM.h"
+#include "tests/EEPROM.h"
 #include "iostream"
 using namespace std;
 #endif

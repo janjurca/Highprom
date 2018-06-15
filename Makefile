@@ -7,7 +7,7 @@ G++ = g++
 G++_FLAGS = -c -g -Wall -I $(GOOGLE_TEST_INCLUDE)
 LD_FLAGS = -L /usr/local/lib -l $(GOOGLE_TEST_LIB) -l pthread
 
-OBJECTS = src/main.o src/EEPROM.o src/highprom.o tests/atomic.o
+OBJECTS = tests/main.o tests/EEPROM.o highprom.o tests/atomic.o
 TARGET = atomic
 
 all: $(TARGET)
