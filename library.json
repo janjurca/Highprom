@@ -1,6 +1,6 @@
 {
   "name": "Highprom",
-  "keywords": "eeprom, memmory, arduino, dictionary",
+  "keywords": "eeprom, memmory, arduino, dictionary, persistent",
   "description": "Arduino library for High level eeprom memmory abstraction and handling",
   "repository":
   {
@@ -14,7 +14,7 @@
       "maintainer": true
     }
   ],
-  "version": "3.7.7",
+  "version": "1.0.0",
   "frameworks": "arduino",
   "platforms": "*"
 }
