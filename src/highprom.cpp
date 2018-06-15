@@ -1,11 +1,11 @@
 #include "highprom.h"
 
 void Highprom::init(){
-    for (size_t i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++) {
         EEPROM.write(i, '\0');
     }
 }
-char * Highprom::getValue(char *key, char *dst, unsigned n){
+char * Highprom::getValue(char const *key, char *dst, unsigned n){
     int valueIndex = indexOfValue(key);
     if (valueIndex == -1) {
         dst = NULL;
@@ -22,7 +22,7 @@ char * Highprom::getValue(char *key, char *dst, unsigned n){
     }
 }
 
-int Highprom::indexOfValue(char* key){
+int Highprom::indexOfValue(char const* key){
     int len = strlen(key);
     for (int i = 0; i < size - len; i++) {
         for (int j = 0; j < len; j++) {
@@ -38,7 +38,7 @@ int Highprom::indexOfValue(char* key){
     return -1;
 }
 
-int Highprom::indexOfKey(char *key){
+int Highprom::indexOfKey(char const*key){
     int len = strlen(key);
     for (int i = 0; i < size - len; i++) {
         for (int j = 0; j < len; j++) {
@@ -70,31 +70,32 @@ void Highprom::removeCell(int index){
     }
 }
 
-void Highprom::removeValue(char *key){
+void Highprom::removeValue(char const*key){
     removeCell(indexOfValue(key));
     removeCell(indexOfKey(key));
 }
 
-bool Highprom::insertValue(char *key, char *value){
+bool Highprom::insertValue(char const*key, char const*value){
     int current_index = indexOfValue(key);
     if (current_index == -1) {
         return insertAtEnd(key, value);
     } else {
         int old_lenght = getValueLength(current_index);
-        if (old_lenght == strlen(value)) {
+        if (old_lenght == (int)strlen(value)) { //TODO solve types
             for (size_t i = 0; i < strlen(value); i++) {
                 EEPROM.write(current_index+i, value[i]);
             }
+            return true;
         } else{
             removeValue(key);
-            insertAtEnd(key, value);
+            return insertAtEnd(key, value);
         }
     }
 }
 
-bool Highprom::writeOnAdress(char* str, size_t address){
-    unsigned end = strlen(str) + address;
-    size_t i;
+bool Highprom::writeOnAdress(char const* str, int address){
+    int end = strlen(str) + address;
+    int i;
     for (i = address; i < end ;i++){
         if (i > size) {
             break;
@@ -118,11 +119,11 @@ void Highprom::eraseFromTo(int start, int end){
     }
 }
 
-bool Highprom::insertAtEnd(char* key,char* value){
+bool Highprom::insertAtEnd(char const* key,char const* value){
     int index_first = getFirstFreeIndex();
     int index = index_first;
-    size_t i = 0;
-    for (; i < strlen(key); i++) {
+    int i = 0;
+    for (; i < (int)strlen(key); i++) {
         if (index+i >= size) {
             eraseFromTo(index, index+i);
             return false;
@@ -132,7 +133,7 @@ bool Highprom::insertAtEnd(char* key,char* value){
     EEPROM.write(index+i, '\0');
     index = index + i + 1;
     i = 0;
-    for (; i < strlen(value); i++) {
+    for (; i < (int)strlen(value); i++) {
         if (index+i >= size) {
             eraseFromTo(index_first, index+i);
             return false;
@@ -148,4 +149,5 @@ int Highprom::getFirstFreeIndex(){
             return i+2;
         }
     }
+    return -1;
 }

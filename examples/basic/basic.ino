@@ -1,4 +1,3 @@
-#include "Arduino.h"
 #include "highprom.h"
 
 
@@ -8,13 +7,12 @@ void setup(){
     Serial.begin(9600);
 
     while (!Serial.available()) {
-           if (Serial.read() == 'e') {
-               prom.init(); // This erases eeprom and prepare it to be used ba lib, It is not need to run it every time, just when you start to use this
-           }
-           if (millis() > 10000) {
-               //user doesnt erased it in first 10 seconds so go on to program
-               break;
-           }
+       if (Serial.read() == 'e') {
+           prom.init(); // This erases eeprom and prepare it to be used ba lib, It is not need to run it every time, just when you start to use this
+       }
+       if (millis() > 10000) {
+           //user doesnt erased it in first 10 seconds so go on to program
+           break;
        }
     }
     prom.insertValue("key","value");

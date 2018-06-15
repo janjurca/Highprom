@@ -23,7 +23,7 @@ public:
      * initialize basics variable
      * @param size size of eeprom space that have to be used by this library
      */
-    Highprom(size_t size): size(size){};
+    Highprom(int size): size(size){};
 
     /**
      * Use just once for initialization of library. Erase all data in desired size(from constructor) and set them to zero
@@ -38,7 +38,6 @@ public:
      * @return     pointer to buffer, null if key havent been found
      */
     char* getValue(char const* key, char * dst, unsigned n);
-
     /**
      * Insert or update value specified by key
      * @param  key   key label of value
@@ -51,14 +50,14 @@ public:
     void removeValue(char const* key);
 
 protected:
-    size_t size = 0;
+    int size = 0;
     bool insertAtEnd(char const* key,char const* value);
     int getFirstFreeIndex();
     void eraseFromTo(int start,int end);
     int indexOfValue(char const* key);
     int indexOfKey(char const* key);
     int getValueLength(int index);
-    bool writeOnAdress(char const* str, size_t address);
+    bool writeOnAdress(char const* str, int address);
     int getNextStringIndex(int startIndex);
     void removeCell(int index);
 };
