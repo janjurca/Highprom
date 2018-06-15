@@ -37,7 +37,7 @@ public:
      * @param  n max length of destination buffer
      * @return     pointer to buffer, null if key havent been found
      */
-    char* getValue(char* key, char* dst, unsigned n);
+    char* getValue(char const* key, char * dst, unsigned n);
 
     /**
      * Insert or update value specified by key
@@ -45,20 +45,20 @@ public:
      * @param  value value to save
      * @return       true if it was ok
      */
-    bool insertValue(char* key,char* value);
+    bool insertValue(char const * key,char const* value);
 
 
-    void removeValue(char* key);
+    void removeValue(char const* key);
 
 protected:
     size_t size = 0;
-    bool insertAtEnd(char* key,char* value);
+    bool insertAtEnd(char const* key,char const* value);
     int getFirstFreeIndex();
     void eraseFromTo(int start,int end);
-    int indexOfValue(char* key);
-    int indexOfKey(char* key);
+    int indexOfValue(char const* key);
+    int indexOfKey(char const* key);
     int getValueLength(int index);
-    bool writeOnAdress(char* str, size_t address);
+    bool writeOnAdress(char const* str, size_t address);
     int getNextStringIndex(int startIndex);
     void removeCell(int index);
 };
