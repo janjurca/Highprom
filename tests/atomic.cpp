@@ -181,3 +181,26 @@ TEST(Atomic, UpdateSemantic) {
         EXPECT_EQ(EEPROM.read(i), expected[i]);
     }
 }
+
+
+TEST(Atomic, ValueKeyColision) {
+    Highprom prom(100);
+    prom.init();
+    prom.insertValue("key","key2");
+    prom.insertValue("key2","ahoji");
+    prom.insertValue("key3","johoj");
+    char * expected = "key\0key2\0key2\0ahoji\0key3\0johoj\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+    for (size_t i = 0; i < 100; i++) {
+        EXPECT_EQ(EEPROM.read(i), expected[i]);
+    }
+    char dst[20];
+    prom.getValue("key",  dst, 20);
+    EXPECT_EQ(string(dst), string("key2"));
+
+    prom.getValue("key2",  dst, 20);
+    EXPECT_EQ(string(dst), string("ahoji"));
+
+    prom.getValue("key3",  dst, 20);
+    EXPECT_EQ(string(dst), string("johoj"));
+
+}

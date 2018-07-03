@@ -46,7 +46,10 @@ public:
      */
     bool insertValue(char const * key,char const* value);
 
-
+    /**
+     * Remove value from EEPROM
+     * @param key key of value
+     */
     void removeValue(char const* key);
 
 protected:
