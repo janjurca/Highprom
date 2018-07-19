@@ -32,44 +32,26 @@ int Highprom::indexOfValue(char const* key){
     }
 }
 
-/*
-int Highprom::indexOfKey(char const*key){
-    int len = strlen(key);
-    bool reading_key = true;
-    for (size_t i = 0; i < size; i++) {
-        int j = 0;
-
-        for (size_t j = 0; j < len; j++) {
-
-        }
-
-    }
-}
-*/
-
 int Highprom::indexOfKey(char const*key){
     int len = strlen(key);
     bool reading_key = true;
     for (int i = 0; i < size - len; i++) {
+        char c;
+        bool matched = true;
         int j = 0;
-        for (; j < len; j++) { //reading word
-            char c = EEPROM.read(i + j);
+        for (; (c = EEPROM.read(i + j)) != '\0' ; j++) { // Iterate through one word whatever it is
             if (reading_key) {
-                if (c != key[j]) {
-                    break;
-                }
-
-                if (j+1 == len) {
-                    return i;
-                }
-            } else {
-                if (c == '\0') {
-                    i = i + j;
-                    break;
+                if (j < len && matched) {
+                    if (c != key[j]) {
+                        matched = false;
+                    }
+                    if (j+1 == len && matched) {
+                        return i;
+                    }
                 }
             }
         }
-        
+        i = i + j;
         reading_key = !reading_key;
     }
     return -1;
