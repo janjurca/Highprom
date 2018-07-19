@@ -24,32 +24,53 @@ char * Highprom::getValue(char const *key, char *dst, unsigned n){
 
 int Highprom::indexOfValue(char const* key){
     int len = strlen(key);
-    for (int i = 0; i < size - len; i++) {
-        for (int j = 0; j < len; j++) {
-            char c = EEPROM.read(i + j);
-            if (c != key[j]) {
-                break;
-            }
-            if (j+1 == len) {
-                return i + len + 1;
-            }
-        }
+    int key_index = indexOfKey(key);
+    if (key_index == -1) {
+        return -1;
+    } else {
+        return indexOfKey(key) + len +1;
     }
-    return -1;
 }
+
+/*
+int Highprom::indexOfKey(char const*key){
+    int len = strlen(key);
+    bool reading_key = true;
+    for (size_t i = 0; i < size; i++) {
+        int j = 0;
+
+        for (size_t j = 0; j < len; j++) {
+
+        }
+
+    }
+}
+*/
 
 int Highprom::indexOfKey(char const*key){
     int len = strlen(key);
+    bool reading_key = true;
     for (int i = 0; i < size - len; i++) {
-        for (int j = 0; j < len; j++) {
+        int j = 0;
+        for (; j < len; j++) { //reading word
             char c = EEPROM.read(i + j);
-            if (c != key[j]) {
-                break;
-            }
-            if (j+1 == len) {
-                return i;
+            if (reading_key) {
+                if (c != key[j]) {
+                    break;
+                }
+
+                if (j+1 == len) {
+                    return i;
+                }
+            } else {
+                if (c == '\0') {
+                    i = i + j;
+                    break;
+                }
             }
         }
+        
+        reading_key = !reading_key;
     }
     return -1;
 }
@@ -121,13 +142,14 @@ void Highprom::eraseFromTo(int start, int end){
 
 bool Highprom::insertAtEnd(char const* key,char const* value){
     int index_first = getFirstFreeIndex();
-    int index = index_first;
+    int index = ++index_first;
     int i = 0;
     for (; i < (int)strlen(key); i++) {
         if (index+i >= size) {
             eraseFromTo(index, index+i);
             return false;
         }
+        //fprintf(stderr,"halooooo----------------------------|%d|----------------------- ",index);
         EEPROM.write(index+i, key[i]);
     }
     EEPROM.write(index+i, '\0');
@@ -146,7 +168,7 @@ bool Highprom::insertAtEnd(char const* key,char const* value){
 int Highprom::getFirstFreeIndex(){
     for (int i = size-1; i > 0; i--) {
         if (EEPROM.read(i) != '\0') {
-            return i+2;
+            return i+1;
         }
     }
     return -1;
