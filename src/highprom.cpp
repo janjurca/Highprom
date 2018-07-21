@@ -22,6 +22,10 @@ char * Highprom::getValue(char const *key, char *dst, unsigned n){
     }
 }
 
+int Highprom::indexOf(char const * key){
+    return indexOfKey(key);
+}
+
 int Highprom::indexOfValue(char const* key){
     int len = strlen(key);
     int key_index = indexOfKey(key);

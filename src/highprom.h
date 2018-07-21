@@ -52,6 +52,13 @@ public:
      */
     void removeValue(char const* key);
 
+    /**
+     * Index of key in eeprom
+     * @param  key key to find
+     * @return     -1 if key is not there, 0-x in other cases
+     */
+    int indexOf(char const * key);
+
 protected:
     int size = 0;
     bool insertAtEnd(char const* key,char const* value);
