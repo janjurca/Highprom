@@ -10,8 +10,8 @@ using namespace std;
 #endif
 
 #ifndef DEBUG_GTESTING
-#include <EEPROM.h>
 #include "Arduino.h"
+#include <EEPROM.h>
 #endif
 
 

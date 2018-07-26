@@ -43,7 +43,7 @@ int Highprom::indexOfKey(char const*key){
         char c;
         bool matched = true;
         int j = 0;
-        for (; (c = EEPROM.read(i + j)) != '\0' ; j++) { // Iterate through one word whatever it is
+        for (; (c = EEPROM.read(i + j)) != '\0' &&  (i+j < size); j++) { // Iterate through one word whatever it is
             if (reading_key) {
                 if (j < len && matched) {
                     if (c != key[j]) {
